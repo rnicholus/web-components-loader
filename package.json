@@ -2,10 +2,12 @@
   "name": "web-components-loader",
   "version": "0.1.0-1",
   "description": "Easily load web components into a project using Webpack.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "homepage": "https://github.com/FineUploader/react-web-components-loader#readme",
+  "repository": "https://github.com/FineUploader/react-web-components-loader",
   "keywords": [
     "webpack",
     "javascript",
@@ -16,7 +18,10 @@
     "vue",
     "angular"
   ],
-  "author": "Ray Nicholus",
+  "author":     {
+    "name": "Ray Nicholus",
+    "url": "http://raynicholus.com"
+  },
   "license": "MIT",
   "dependencies": {
     "html-minifier": "3.2.3",
