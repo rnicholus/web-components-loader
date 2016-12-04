@@ -1,0 +1,28 @@
+{
+  "name": "web-components-loader",
+  "version": "0.1.0-1",
+  "description": "Easily load web components into a project using Webpack.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webpack",
+    "javascript",
+    "webcomponents",
+    "customelements",
+    "htmlimport",
+    "react",
+    "vue",
+    "angular"
+  ],
+  "author": "Ray Nicholus",
+  "license": "MIT",
+  "dependencies": {
+    "html-minifier": "3.2.3",
+    "loader-utils": "0.2.16",
+    "uglify-js": "2.7.4",
+    "uglifycss": "0.0.25",
+    "xmldom": "0.1.24"
+  }
+}
