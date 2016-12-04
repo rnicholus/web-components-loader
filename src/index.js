@@ -1,7 +1,3 @@
-// TODO mark dependant HTML/CSS/JS files to ensure recompile in watch mode if any of these change
-// TODO ensure JS files can be transpiled, possibly <script> tags in imported HTML files too
-// TODO tests
-
 const DOMParser = require('xmldom').DOMParser
 const fs = require('fs')
 const loaderUtils = require('loader-utils')
@@ -31,23 +27,23 @@ module.exports = function(htmlFileContent) {
 
     filesToEmit.forEach(
         filePath => {
-        'use strict'
+            'use strict'
 
-        const relativePath = path.relative(this.context, filePath)
-        const fileOutputPath = `${outputDir}/${relativePath}`
-        const fileOutputDir = path.dirname(fileOutputPath)
+            const relativePath = path.relative(this.context, filePath)
+            const fileOutputPath = `${outputDir}/${relativePath}`
+            const fileOutputDir = path.dirname(fileOutputPath)
 
-        if (!fs.existsSync(fileOutputDir)) {
-        fs.mkdirSync(fileOutputDir)
-    }
+            if (!fs.existsSync(fileOutputDir)) {
+                fs.mkdirSync(fileOutputDir)
+            }
 
-    const contentToOutput = minify
-        ? getMinifiedOutput(filePath)
-        : fs.readFileSync(filePath)
+            const contentToOutput = minify
+                ? getMinifiedOutput(filePath)
+                : fs.readFileSync(filePath)
 
-    fs.writeFileSync(fileOutputPath, contentToOutput)
-    emittedOutputPaths.push(fileOutputPath)
-}
+            fs.writeFileSync(fileOutputPath, contentToOutput)
+            emittedOutputPaths.push(fileOutputPath)
+        }
     )
 
     const htmlImportPath = emittedOutputPaths[0].split(localOutputDir + '/').pop()
@@ -60,35 +56,35 @@ const getLocalDependencies = (htmlFileContent, htmlFilePath) => {
 
     Array.from(htmlFileDoc.getElementsByTagName('link')).forEach(
         linkEl => {
-        const href = linkEl.getAttribute('href')
+            const href = linkEl.getAttribute('href')
 
-        // iff this is a local path
-        if (href.trim() && !remotePathPattern.test(href)) {
-        const relativePath = path.join(htmlFilePath, href)
+            // iff this is a local path
+            if (href.trim() && !remotePathPattern.test(href)) {
+                const relativePath = path.join(htmlFilePath, href)
 
-        localDependencies.push(relativePath)
+                localDependencies.push(relativePath)
 
-        // getLocalDependencies of this imported HTML file too
-        if (linkEl.getAttribute('rel') === 'import') {
-            const childHtmlFileContent = fs.readFileSync(relativePath)
-            const childHtmlFileDependencies = getLocalDependencies(childHtmlFileContent)
+                // getLocalDependencies of this imported HTML file too
+                if (linkEl.getAttribute('rel') === 'import') {
+                    const childHtmlFileContent = fs.readFileSync(relativePath)
+                    const childHtmlFileDependencies = getLocalDependencies(childHtmlFileContent)
 
-            localDependencies.push.apply(localDependencies, childHtmlFileDependencies)
+                    localDependencies.push.apply(localDependencies, childHtmlFileDependencies)
+                }
+            }
         }
-    }
-}
-)
+    )
 
     Array.from(htmlFileDoc.getElementsByTagName('script')).forEach(
         scriptEl => {
-        const src = scriptEl.getAttribute('src')
+            const src = scriptEl.getAttribute('src')
 
-        // iff this is a local path
-        if (src.trim() && !remotePathPattern.test(src)) {
-        localDependencies.push(path.join(htmlFilePath, src))
-    }
-}
-)
+            // iff this is a local path
+            if (src.trim() && !remotePathPattern.test(src)) {
+                localDependencies.push(path.join(htmlFilePath, src))
+            }
+        }
+    )
 
     return localDependencies
 }
