@@ -4,7 +4,7 @@
   "description": "Easily load web components into a project using Webpack.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "homepage": "https://github.com/FineUploader/react-web-components-loader#readme",
   "repository": "https://github.com/FineUploader/react-web-components-loader",
@@ -18,7 +18,7 @@
     "vue",
     "angular"
   ],
-  "author":     {
+  "author": {
     "name": "Ray Nicholus",
     "url": "http://raynicholus.com"
   },
@@ -29,5 +29,9 @@
     "uglify-js": "2.7.4",
     "uglifycss": "0.0.25",
     "xmldom": "0.1.24"
+  },
+  "devDependencies": {
+    "del": "2.2.2",
+    "jasmine": "2.5.2"
   }
 }
