@@ -25,6 +25,8 @@ module.exports = function(htmlFileContent) {
 
     const outputDir = `${localOutputDir}/${htmlFileNameSansExt}`
 
+    this.cacheable()
+
     filesToEmit.forEach(
         filePath => {
             'use strict'
@@ -32,14 +34,22 @@ module.exports = function(htmlFileContent) {
             const relativePath = path.relative(this.context, filePath)
             const fileOutputPath = `${outputDir}/${relativePath}`
             const fileOutputDir = path.dirname(fileOutputPath)
+            const rawContent = fs.readFileSync(filePath).toString()
+            const transformJs = this.options.webComponentsLoader && this.options.webComponentsLoader.transformJs
 
             if (!fs.existsSync(fileOutputDir)) {
                 fs.mkdirSync(fileOutputDir)
             }
 
-            const contentToOutput = minify
-                ? getMinifiedOutput(filePath)
-                : fs.readFileSync(filePath)
+            let contentToOutput = rawContent
+
+            if (transformJs && filePath.endsWith('.js')) {
+                contentToOutput = transformJs(contentToOutput)
+            }
+
+            if (minify) {
+                contentToOutput = getMinifiedOutput(contentToOutput)
+            }
 
             fs.writeFileSync(fileOutputPath, contentToOutput)
             this.addDependency(filePath)
@@ -105,21 +115,18 @@ const getMinifiedHtml = unminifiedHtml => {
         removeRedundantAttributes: true,
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true,
         trimCustomFragments: true
     })
 }
 
-const getMinifiedOutput = filePath => {
-    const fileBuffer = fs.readFileSync(filePath)
-
+const getMinifiedOutput = code => {
     if (filePath.endsWith('.html')) {
-        return getMinifiedHtml(fileBuffer.toString())
+        return getMinifiedHtml(code)
     }
     else if (filePath.endsWith('.css')) {
-        return uglifyCss.processString(fileBuffer.toString())
+        return uglifyCss.processString(code)
     }
     else if (filePath.endsWith('.js')) {
-        return uglifyJs.minify(filePath).code
+        return uglifyJs.minify(Buffer.from(code)).code
     }
 }
