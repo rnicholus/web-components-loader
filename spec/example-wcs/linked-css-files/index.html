@@ -1,0 +1,12 @@
+<link rel='stylesheet' href='index.css'>
+<link rel='stylesheet' href='foo/index.css'>
+
+<template id="linked-css-files-wc">
+    <content></content>
+</template>
+
+<script>
+    document.registerElement("linked-css-files-wc", {
+        prototype: Object.create(HTMLElement.prototype)
+    })
+</script>

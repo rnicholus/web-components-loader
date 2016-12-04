@@ -1,0 +1,12 @@
+<script src='index.js'></script>
+<script src='foo/index.js'></script>
+
+<template id="linked-js-files-wc">
+    <content></content>
+</template>
+
+<script>
+    document.registerElement("linked-js-files-wc", {
+        prototype: Object.create(HTMLElement.prototype)
+    })
+</script>

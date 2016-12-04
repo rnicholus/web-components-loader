@@ -77,8 +77,8 @@ const getLocalDependencies = (htmlFileContent, htmlFilePath) => {
 
                 // getLocalDependencies of this imported HTML file too
                 if (linkEl.getAttribute('rel') === 'import') {
-                    const childHtmlFileContent = fs.readFileSync(relativePath)
-                    const childHtmlFileDependencies = getLocalDependencies(childHtmlFileContent)
+                    const childHtmlFileContent = fs.readFileSync(relativePath).toString()
+                    const childHtmlFileDependencies = getLocalDependencies(childHtmlFileContent, path.dirname(relativePath))
 
                     localDependencies.push.apply(localDependencies, childHtmlFileDependencies)
                 }
