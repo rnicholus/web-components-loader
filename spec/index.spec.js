@@ -8,7 +8,8 @@ const outputDir = 'spec/example-wcs/output'
 
 describe('web-components-loader', () => {
     beforeEach(() => {
-        del.sync([`${outputDir}/**`, `!${outputDir}`])
+        del.sync([`${outputDir}/**`])
+        fs.mkdirSync(outputDir)
     })
 
     describe('simple WC support', () => {
