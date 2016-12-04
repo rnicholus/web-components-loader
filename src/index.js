@@ -42,6 +42,7 @@ module.exports = function(htmlFileContent) {
                 : fs.readFileSync(filePath)
 
             fs.writeFileSync(fileOutputPath, contentToOutput)
+            this.addDependency(filePath)
             emittedOutputPaths.push(fileOutputPath)
         }
     )
