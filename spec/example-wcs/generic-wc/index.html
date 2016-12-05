@@ -1,0 +1,12 @@
+<script src='index.js'></script>
+<link rel='stylesheet' href='index.css'>
+
+<template id="generic-wc">
+    <content></content>
+</template>
+
+<script>
+    document.registerElement("generic-wc", {
+        prototype: Object.create(HTMLElement.prototype)
+    })
+</script>

@@ -48,7 +48,7 @@ module.exports = function(htmlFileContent) {
             }
 
             if (minify) {
-                contentToOutput = getMinifiedOutput(contentToOutput)
+                contentToOutput = getMinifiedOutput(filePath, contentToOutput)
             }
 
             fs.writeFileSync(fileOutputPath, contentToOutput)
@@ -119,7 +119,7 @@ const getMinifiedHtml = unminifiedHtml => {
     })
 }
 
-const getMinifiedOutput = code => {
+const getMinifiedOutput = (filePath, code) => {
     if (filePath.endsWith('.html')) {
         return getMinifiedHtml(code)
     }
@@ -127,6 +127,6 @@ const getMinifiedOutput = code => {
         return uglifyCss.processString(code)
     }
     else if (filePath.endsWith('.js')) {
-        return uglifyJs.minify(Buffer.from(code)).code
+        return uglifyJs.minify(code, { fromString: true }).code
     }
 }

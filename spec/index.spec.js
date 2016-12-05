@@ -111,4 +111,74 @@ describe('web-components-loader', () => {
             expect(fs.existsSync(`${outputDir}/index.html/other-wc/index.js`)).toBe(true)
         })
     })
+
+    describe('minification', () => {
+        const htmlPath = 'spec/example-wcs/generic-wc/index.html'
+        const htmlContent = fs.readFileSync(htmlPath).toString()
+        const defaultContext = {
+            addDependency: () => {},
+            cacheable: () => {},
+            context: 'spec/example-wcs/generic-wc',
+            options: {},
+            query: `?output=${outputDir}`,
+            resourcePath: htmlPath
+        }
+
+        it('does not minify JS, CSS, or HTML files by default', () => {
+            loader.call(defaultContext, htmlContent)
+
+            expect(fs.statSync(htmlPath).size)
+                .toBe(fs.statSync(`${outputDir}/index.html/index.html`).size)
+
+            expect(fs.statSync(`${defaultContext.context}/index.js`).size)
+                .toBe(fs.statSync(`${outputDir}/index.html/index.js`).size)
+
+            expect(fs.statSync(`${defaultContext.context}/index.css`).size)
+                .toBe(fs.statSync(`${outputDir}/index.html/index.css`).size)
+        })
+
+        it('minifies JS, CSS, or HTML files if ordered to do so', () => {
+            const contextWithMinifyEnabled =
+                Object.assign({}, defaultContext, { query: `${defaultContext.query}&minify` })
+
+            loader.call(contextWithMinifyEnabled, htmlContent)
+
+            expect(fs.statSync(htmlPath).size)
+                .toBeGreaterThan(fs.statSync(`${outputDir}/index.html/index.html`).size)
+
+            expect(fs.statSync(`${contextWithMinifyEnabled.context}/index.js`).size)
+                .toBeGreaterThan(fs.statSync(`${outputDir}/index.html/index.js`).size)
+
+            expect(fs.statSync(`${contextWithMinifyEnabled.context}/index.css`).size)
+                .toBeGreaterThan(fs.statSync(`${outputDir}/index.html/index.css`).size)
+        })
+    })
+
+    describe('transform', () => {
+        const htmlPath = 'spec/example-wcs/generic-wc/index.html'
+        const htmlContent = fs.readFileSync(htmlPath).toString()
+        const context = {
+            addDependency: () => {},
+            cacheable: () => {},
+            context: 'spec/example-wcs/generic-wc',
+            options: {
+                webComponentsLoader: {
+                    transformJs: code => {
+                        return `start_${code}_end`
+                    }
+                }
+            },
+            query: `?output=${outputDir}`,
+            resourcePath: htmlPath
+        }
+
+        it('outputs transformed JS', () => {
+            const rawJsFileContent = fs.readFileSync(`${context.context}/index.js`).toString()
+
+            loader.call(context, htmlContent)
+
+            expect(fs.readFileSync(`${outputDir}/index.html/index.js`).toString())
+                .toBe(`start_${rawJsFileContent}_end`)
+        })
+    })
 })
