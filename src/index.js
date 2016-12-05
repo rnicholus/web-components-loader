@@ -1,3 +1,4 @@
+// web-components-loader Copyright © 2016 Ray Nicholus
 const DOMParser = require('xmldom').DOMParser
 const fs = require('fs')
 const loaderUtils = require('loader-utils')
