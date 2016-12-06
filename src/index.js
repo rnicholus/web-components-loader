@@ -3,6 +3,7 @@ const DOMParser = require('xmldom').DOMParser
 const fs = require('fs')
 const loaderUtils = require('loader-utils')
 const minifyHtml = require('html-minifier').minify
+const mkdirp = require('mkdirp')
 const path = require('path')
 const remotePathPattern = new RegExp('^(?:[a-z]+:)?//', 'i')
 const uglifyCss = require('uglifycss')
@@ -16,15 +17,25 @@ module.exports = function(htmlFileContent) {
 
     const emittedOutputPaths = []
 
-    const htmlFileNameSansExt = this.resourcePath.split('/').pop()
+    const resourceDirName = this.context.split('/').pop()
+
+    const htmlFileNameSansExt = this.resourcePath.split('/').pop().slice(0, -5)
 
     const parsedQuery = loaderUtils.parseQuery(this.query)
 
-    const localOutputDir = parsedQuery.output
+    const outputPath = parsedQuery.outputPath == null
+        ? this.options.output.path
+        : parsedQuery.outputPath
+
+    const outputPublicPath = parsedQuery.outputPublicPath == null
+        ? this.options.output.publicPath
+        : parsedQuery.outputPublicPath
+
+    const localOutputDir = `${outputPath}/web-components`
 
     const minify = parsedQuery.minify
 
-    const outputDir = `${localOutputDir}/${htmlFileNameSansExt}`
+    const outputDir = `${localOutputDir}/${resourceDirName}`
 
     this.cacheable()
 
@@ -39,7 +50,7 @@ module.exports = function(htmlFileContent) {
             const transformJs = this.options.webComponentsLoader && this.options.webComponentsLoader.transformJs
 
             if (!fs.existsSync(fileOutputDir)) {
-                fs.mkdirSync(fileOutputDir)
+                mkdirp.sync(fileOutputDir)
             }
 
             let contentToOutput = rawContent
@@ -58,7 +69,7 @@ module.exports = function(htmlFileContent) {
         }
     )
 
-    const htmlImportPath = emittedOutputPaths[0].split(localOutputDir + '/').pop()
+    const htmlImportPath = `${outputPublicPath}web-components/${resourceDirName}/${htmlFileNameSansExt}.html`
     return `module.exports = '${htmlImportPath}'`
 }
 

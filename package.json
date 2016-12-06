@@ -1,6 +1,6 @@
 {
   "name": "web-components-loader",
-  "version": "0.1.0-1",
+  "version": "0.1.0-2",
   "description": "Easily load web components into a project using Webpack.",
   "main": "lib/index.js",
   "scripts": {
@@ -26,6 +26,7 @@
   "dependencies": {
     "html-minifier": "3.2.3",
     "loader-utils": "0.2.16",
+    "mkdirp": "0.5.1",
     "uglify-js": "2.7.4",
     "uglifycss": "0.0.25",
     "xmldom": "0.1.24"

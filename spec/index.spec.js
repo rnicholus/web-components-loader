@@ -19,18 +19,22 @@ describe('web-components-loader', () => {
             addDependency: jasmine.createSpy('addDependency'),
             cacheable: () => {},
             context: 'spec/example-wcs/simple',
-            options: {},
-            query: `?output=${outputDir}`,
+            options: {
+                output: {
+                    path: outputDir,
+                    publicPath: ''
+                }
+            },
             resourcePath: htmlPath
         }
 
         it('copies the HTML file to the output dir and returns output path', () => {
             const outputPath = loader.call(context, htmlContent)
 
-            expect(outputPath).toBe("module.exports = 'index.html/index.html'")
+            expect(outputPath).toBe("module.exports = 'web-components/simple/index.html'")
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/simple/index.html')
-            expect(fs.existsSync(`${outputDir}/index.html`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/index.html`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/simple/index.html`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/simple/index.html`)).toBe(true)
         })
     })
 
@@ -41,22 +45,25 @@ describe('web-components-loader', () => {
             addDependency: jasmine.createSpy('addDependency'),
             cacheable: () => {},
             context: 'spec/example-wcs/linked-js-files',
-            options: {},
-            query: `?output=${outputDir}`,
+            options: {
+                output: {
+                    path: outputDir,
+                    publicPath: ''
+                }
+            },
             resourcePath: htmlPath
         }
 
         it('copies the HTML & JS files to the output dir and returns output path to HTML file', () => {
             const outputPath = loader.call(context, htmlContent)
 
-            expect(outputPath).toBe("module.exports = 'index.html/index.html'")
+            expect(outputPath).toBe("module.exports = 'web-components/linked-js-files/index.html'")
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/linked-js-files/index.html')
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/linked-js-files/index.js')
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/linked-js-files/foo/index.js')
-            expect(fs.existsSync(`${outputDir}/index.html`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/index.html`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/index.js`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/foo/index.js`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/linked-js-files/index.html`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/linked-js-files/index.js`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/linked-js-files/foo/index.js`)).toBe(true)
         })
     })
 
@@ -67,22 +74,25 @@ describe('web-components-loader', () => {
             addDependency: jasmine.createSpy('addDependency'),
             cacheable: () => {},
             context: 'spec/example-wcs/linked-css-files',
-            options: {},
-            query: `?output=${outputDir}`,
+            options: {
+                output: {
+                    path: outputDir,
+                    publicPath: ''
+                }
+            },
             resourcePath: htmlPath
         }
 
         it('copies the HTML & CSS files to the output dir and returns output path to HTML file', () => {
             const outputPath = loader.call(context, htmlContent)
 
-            expect(outputPath).toBe("module.exports = 'index.html/index.html'")
+            expect(outputPath).toBe("module.exports = 'web-components/linked-css-files/index.html'")
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/linked-css-files/index.html')
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/linked-css-files/index.css')
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/linked-css-files/foo/index.css')
-            expect(fs.existsSync(`${outputDir}/index.html`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/index.html`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/index.css`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/foo/index.css`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/linked-css-files/index.html`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/linked-css-files/index.css`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/linked-css-files/foo/index.css`)).toBe(true)
         })
     })
 
@@ -93,22 +103,25 @@ describe('web-components-loader', () => {
             addDependency: jasmine.createSpy('addDependency'),
             cacheable: () => {},
             context: 'spec/example-wcs/nested-html-imports',
-            options: {},
-            query: `?output=${outputDir}`,
+            options: {
+                output: {
+                    path: outputDir,
+                    publicPath: ''
+                }
+            },
             resourcePath: htmlPath
         }
 
         it('copies the HTML, JS, and nested HTML files to the output dir and returns output path to root HTML file', () => {
             const outputPath = loader.call(context, htmlContent)
 
-            expect(outputPath).toBe("module.exports = 'index.html/index.html'")
+            expect(outputPath).toBe("module.exports = 'web-components/nested-html-imports/index.html'")
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/nested-html-imports/index.html')
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/nested-html-imports/other-wc/index.html')
             expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/nested-html-imports/other-wc/index.html')
-            expect(fs.existsSync(`${outputDir}/index.html`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/index.html`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/other-wc/index.html`)).toBe(true)
-            expect(fs.existsSync(`${outputDir}/index.html/other-wc/index.js`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/nested-html-imports/index.html`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/nested-html-imports/other-wc/index.html`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/nested-html-imports/other-wc/index.js`)).toBe(true)
         })
     })
 
@@ -119,8 +132,12 @@ describe('web-components-loader', () => {
             addDependency: () => {},
             cacheable: () => {},
             context: 'spec/example-wcs/generic-wc',
-            options: {},
-            query: `?output=${outputDir}`,
+            options: {
+                output: {
+                    path: outputDir,
+                    publicPath: ''
+                }
+            },
             resourcePath: htmlPath
         }
 
@@ -128,29 +145,29 @@ describe('web-components-loader', () => {
             loader.call(defaultContext, htmlContent)
 
             expect(fs.statSync(htmlPath).size)
-                .toBe(fs.statSync(`${outputDir}/index.html/index.html`).size)
+                .toBe(fs.statSync(`${outputDir}/web-components/generic-wc/index.html`).size)
 
             expect(fs.statSync(`${defaultContext.context}/index.js`).size)
-                .toBe(fs.statSync(`${outputDir}/index.html/index.js`).size)
+                .toBe(fs.statSync(`${outputDir}/web-components/generic-wc/index.js`).size)
 
             expect(fs.statSync(`${defaultContext.context}/index.css`).size)
-                .toBe(fs.statSync(`${outputDir}/index.html/index.css`).size)
+                .toBe(fs.statSync(`${outputDir}/web-components/generic-wc/index.css`).size)
         })
 
         it('minifies JS, CSS, or HTML files if ordered to do so', () => {
             const contextWithMinifyEnabled =
-                Object.assign({}, defaultContext, { query: `${defaultContext.query}&minify` })
+                Object.assign({}, defaultContext, { query: '?minify' })
 
             loader.call(contextWithMinifyEnabled, htmlContent)
 
             expect(fs.statSync(htmlPath).size)
-                .toBeGreaterThan(fs.statSync(`${outputDir}/index.html/index.html`).size)
+                .toBeGreaterThan(fs.statSync(`${outputDir}/web-components/generic-wc/index.html`).size)
 
             expect(fs.statSync(`${contextWithMinifyEnabled.context}/index.js`).size)
-                .toBeGreaterThan(fs.statSync(`${outputDir}/index.html/index.js`).size)
+                .toBeGreaterThan(fs.statSync(`${outputDir}/web-components/generic-wc/index.js`).size)
 
             expect(fs.statSync(`${contextWithMinifyEnabled.context}/index.css`).size)
-                .toBeGreaterThan(fs.statSync(`${outputDir}/index.html/index.css`).size)
+                .toBeGreaterThan(fs.statSync(`${outputDir}/web-components/generic-wc/index.css`).size)
         })
     })
 
@@ -162,6 +179,10 @@ describe('web-components-loader', () => {
             cacheable: () => {},
             context: 'spec/example-wcs/generic-wc',
             options: {
+                output: {
+                    path: outputDir,
+                    publicPath: ''
+                },
                 webComponentsLoader: {
                     transformJs: code => {
                         return `start_${code}_end`
@@ -177,8 +198,40 @@ describe('web-components-loader', () => {
 
             loader.call(context, htmlContent)
 
-            expect(fs.readFileSync(`${outputDir}/index.html/index.js`).toString())
+            expect(fs.readFileSync(`${outputDir}/web-components/generic-wc/index.js`).toString())
                 .toBe(`start_${rawJsFileContent}_end`)
+        })
+    })
+
+    describe('override path and/or publicPath', () => {
+        const htmlPath = 'spec/example-wcs/nested-html-imports/index.html'
+        const htmlContent = fs.readFileSync(htmlPath).toString()
+        const context = {
+            addDependency: jasmine.createSpy('addDependency'),
+            cacheable: () => {},
+            context: 'spec/example-wcs/nested-html-imports',
+            options: {
+                output: {
+                    path: 'this/is/wrong',
+                    publicPath: 'this/is/very/wrong'
+                }
+            },
+            resourcePath: htmlPath
+        }
+
+        it('handles overriden path and publicPath', () => {
+            const contextWithOverridenPath = Object.assign({}, context, {
+                query: `?outputPath=${outputDir}&outputPublicPath=`
+            })
+            const outputPath = loader.call(contextWithOverridenPath, htmlContent)
+
+            expect(outputPath).toBe("module.exports = 'web-components/nested-html-imports/index.html'")
+            expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/nested-html-imports/index.html')
+            expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/nested-html-imports/other-wc/index.html')
+            expect(context.addDependency).toHaveBeenCalledWith('spec/example-wcs/nested-html-imports/other-wc/index.html')
+            expect(fs.existsSync(`${outputDir}/web-components/nested-html-imports/index.html`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/nested-html-imports/other-wc/index.html`)).toBe(true)
+            expect(fs.existsSync(`${outputDir}/web-components/nested-html-imports/other-wc/index.js`)).toBe(true)
         })
     })
 })
