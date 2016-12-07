@@ -1,6 +1,6 @@
 {
   "name": "web-components-loader",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Easily load web components into a project using Webpack.",
   "main": "lib/index.js",
   "scripts": {
@@ -8,8 +8,8 @@
     "release": "rm -rf dist; mkdir dist; cp -pR src lib package.json LICENSE README.md dist/; (cd dist; npm publish)",
     "test": "jasmine"
   },
-  "homepage": "https://github.com/FineUploader/react-web-components-loader#readme",
-  "repository": "https://github.com/FineUploader/react-web-components-loader",
+  "homepage": "https://github.com/rnicholus/web-components-loader#readme",
+  "repository": "https://github.com/rnicholus/web-components-loader",
   "keywords": [
     "webpack",
     "javascript",
