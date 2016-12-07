@@ -125,7 +125,7 @@ module.exports = {
   webComponentsLoader: {
     transformJs: rawCode => {
       return babel.transform(rawCode, {
-        presets: ['react-app']
+        presets: ['es2015']
       }).code;
     },
   },
