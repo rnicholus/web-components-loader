@@ -147,7 +147,7 @@ This loader works very well with the [React Web Component Wrapper](https://githu
 ```jsx
 import React, { Component } from 'react'
 import webComponentHref from 'file-input-web-component/file-input.html'
-import WebComponentWrapper from 'web-component-wrapper'
+import FileInput from 'web-component-wrapper'
 
 const extensions = [
   'jpg',
@@ -157,13 +157,13 @@ const extensions = [
 class FileInputDemo extends Component {
   render() {
     return (
-      <WebComponentWrapper extensions={ extensions }
-                           onChange={ event => console.log(event.detail) }
-                           webComponentHtmlHref={ webComponentHref }
-                           webComponentName='file-input'
+      <FileInput extensions={ extensions }
+                 onChange={ event => console.log(event.detail) }
+                 webComponentHtmlHref={ webComponentHref }
+                 webComponentName='file-input'
       >
         Select Files
-      </WebComponentWrapper>
+      </FileInput>
     )
   }
 }
