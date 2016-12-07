@@ -99,7 +99,10 @@ document.body.appendChild(importEl)
 ```js
 {
   test: /web-components\//,
-  loader: 'web-components-loader'
+  loader: 'web-components-loader',
+  query: {
+    minify: true
+  }
 }
 ```
 
