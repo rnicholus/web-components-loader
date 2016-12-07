@@ -1,3 +1,5 @@
 .idea
-spec/example-wcs/output
+dist
+lib
 node_modules
+spec/example-wcs/output
