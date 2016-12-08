@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/v/web-components-loader.svg)](https://www.npmjs.com/package/web-components-loader)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 
-> A Webpack loader that makes it incredibly easy to import multi-file Web Components into your project.
+> A Webpack loader that makes it incredibly easy to import HTML-centric Web Components into your project.
 
 Importing a Web Component that consists of a single JavaScript file isn't particularly difficult, but what about Web Components that require HTML imports which themselves import various other JavaScript, CSS, and other HTML files? This is more more complicated, and, before web-components-loader, involved a lot of manual intervention. 
 
