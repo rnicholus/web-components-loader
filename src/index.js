@@ -25,8 +25,8 @@ module.exports = function(htmlFileContent) {
 
     const outputPath = parsedQuery.outputPath == null
         ? this.options.output.path
-        : parsedQuery.outputPath
-
+        : '/'
+    
     const outputPublicPath = parsedQuery.outputPublicPath == null
         ? this.options.output.publicPath
         : parsedQuery.outputPublicPath
